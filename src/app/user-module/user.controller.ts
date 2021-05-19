@@ -20,9 +20,12 @@ export class UserController {
   }
 
   /**
-   * 내 정보
+   * 사용자 정보
    * @path GET /api/users/{id}
    */
-  @httpGet("/:id", auth)
-  async getUser(req: Request, res: Response) {}
+  @httpGet("/:id")
+  async getUser(req: Request, res: Response) {
+    const user = await this.userService.getUser(+req.params.id);
+    res.status(200).json(user);
+  }
 }
