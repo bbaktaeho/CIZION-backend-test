@@ -2,8 +2,9 @@ import { controller, httpDelete, httpGet, httpPost } from "inversify-express-uti
 import { auth } from "../middlewares/auth/jwt.auth";
 import { validatePost } from "./middlewares/post.validator";
 import { PostService } from "./post.service";
+import { Request, Response } from "express";
 
-@controller("/posts", auth)
+@controller("/posts")
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
@@ -12,34 +13,43 @@ export class PostController {
    * @body {title: string, body: string}
    * @path POST /api/posts/
    */
-  @httpPost("/", validatePost)
-  async createPost() {}
+  @httpPost("/", auth, validatePost)
+  async createPost(req: Request, res: Response) {
+    const userId = req.user!.id!;
+    await this.postService.createPost(req.body, userId);
+    res.status(201).end();
+  }
 
   /**
    * 게시글 모두 조회
    * @path GET /api/posts/
    */
   @httpGet("/")
-  async getPosts() {}
+  async getPosts(req: Request, res: Response) {
+    const posts = await this.postService.getPosts();
+    res.status(200).json(posts);
+  }
 
   /**
    * 게시글 조회
    * @path GET /api/posts/{id}
    */
   @httpGet("/:id")
-  async getPost() {}
+  async getPost(req: Request, res: Response) {
+    const id = +req.params.id;
+    const post = await this.postService.getPost(id);
+    res.status(200).json(post);
+  }
 
   /**
    * 게시글 삭제
    * @path DELETE /api/posts/{id}
    */
-  @httpDelete("/:id")
-  async deletePost() {}
-
-  /**
-   * 게시글의 댓글 모두 조회
-   * @path GET /api/posts/{postId}/comments
-   */
-  @httpGet("/:id/comments")
-  async getCommentsInPost() {}
+  @httpDelete("/:id", auth)
+  async deletePost(req: Request, res: Response) {
+    const userId = req.user!.id!;
+    const id = +req.params.id;
+    await this.postService.deletePost(id, userId);
+    res.status(200).end();
+  }
 }

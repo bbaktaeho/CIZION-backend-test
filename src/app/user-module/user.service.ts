@@ -21,6 +21,7 @@ export class UserService {
   async getUser(id: number) {
     const user = await this.userRepository.getUserById(id);
     if (!user) throw Exception.new(404, "없는 사용자");
+    user.password = "";
     return user;
   }
 }
