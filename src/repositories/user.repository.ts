@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import { User } from "../database/entities/user.entity";
-import { IUser } from "../common/interfases/user.interface";
+import { IUser } from "../interfases/user.interface";
 
 @injectable()
 export class UserRepository {

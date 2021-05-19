@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import { Exception } from "../../../common/exceptions/exception";
-import { IUser } from "../../../common/interfases/user.interface";
+import { IUser } from "../../../interfases/user.interface";
 import { isPassword } from "../../../common/utils/bcrypt.util";
 import { createUserToken } from "../../../common/utils/jwt.util";
 import { UserRepository } from "../../../repositories/user.repository";

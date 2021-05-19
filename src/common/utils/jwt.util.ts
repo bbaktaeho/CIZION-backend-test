@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { jwtConfig } from "../configs/jwt.config";
-import { IUser } from "../interfases/user.interface";
+import { IUser } from "../../interfases/user.interface";
 
 export function encryptJWT(accessToken: string) {
   const [type, token] = accessToken.split(" ");

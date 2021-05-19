@@ -1,5 +1,5 @@
 import { Entity, Column, OneToMany, ManyToMany, JoinTable } from "typeorm";
-import { IUser } from "../../common/interfases/user.interface";
+import { IUser } from "../../interfases/user.interface";
 import { Comment } from "./comment.entity";
 import { Model } from "./model.entity";
 import { Post } from "./post.entity";

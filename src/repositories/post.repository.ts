@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
-import { IPost } from "../common/interfases/post.interface";
-import { IUser } from "../common/interfases/user.interface";
+import { IPost } from "../interfases/post.interface";
+import { IUser } from "../interfases/user.interface";
 import { Post } from "../database/entities/post.entity";
 
 @injectable()
