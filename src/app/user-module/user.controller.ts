@@ -15,8 +15,8 @@ export class UserController {
    */
   @httpPost("/", validateRegister)
   async register(req: Request, res: Response) {
-    const user = await this.userService.register(req.body);
-    res.status(201).json(user);
+    await this.userService.register(req.body);
+    res.status(201).end();
   }
 
   /**
