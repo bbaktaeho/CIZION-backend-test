@@ -8,17 +8,15 @@ import { UserRepository } from "../../repositories/user.repository";
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async register(userDto: IUser) {
+  async register(userDto: IUser): Promise<void> {
     const exists = await this.userRepository.getUserByEmail(userDto.email);
     if (exists) throw Exception.new(409, "이메일 중복");
 
     userDto.password = encryptPassword(userDto.password);
-    const user = await this.userRepository.createUser(userDto);
-    user.password = "";
-    return user;
+    await this.userRepository.createUser(userDto);
   }
 
-  async getUser(id: number) {
+  async getUser(id: number): Promise<IUser> {
     const user = await this.userRepository.getUserById(id);
     if (!user) throw Exception.new(404, "없는 사용자");
     user.password = "";
