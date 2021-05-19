@@ -1,6 +1,7 @@
+import { User } from "@src/database/entities/user.entity";
+import { IUser } from "@src/interfases/user.interface";
 import { injectable } from "inversify";
-import { User } from "../database/entities/user.entity";
-import { IUser } from "../interfases/user.interface";
+
 
 @injectable()
 export class UserRepository {

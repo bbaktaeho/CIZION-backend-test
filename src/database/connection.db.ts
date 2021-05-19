@@ -1,6 +1,6 @@
+import { dbConfig } from "@src/common/configs/db.config";
+import logger from "@src/common/utils/log.util";
 import { createConnection } from "typeorm";
-import { dbConfig } from "../common/configs/db.config";
-import logger from "../common/utils/log.util";
 import { Comment } from "./entities/comment.entity";
 import { Post } from "./entities/post.entity";
 import { User } from "./entities/user.entity";

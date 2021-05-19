@@ -1,5 +1,5 @@
+import { IComment } from "@src/interfases/comment.interface";
 import { Entity, Column, ManyToOne, ManyToMany, JoinTable } from "typeorm";
-import { IComment } from "../../interfases/comment.interface";
 import { Model } from "./model.entity";
 import { Post } from "./post.entity";
 import { User } from "./user.entity";

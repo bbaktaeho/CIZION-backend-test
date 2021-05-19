@@ -1,7 +1,8 @@
+import { Exception } from "@src/common/exceptions/exception";
+import { encryptJWT } from "@src/common/utils/jwt.util";
+import { IUser } from "@src/interfases/user.interface";
 import { Request, Response, NextFunction } from "express";
-import { encryptJWT } from "../../../common/utils/jwt.util";
-import { Exception } from "../../../common/exceptions/exception";
-import { IUser } from "../../../interfases/user.interface";
+
 
 export function auth(req: Request, _: Response, next: NextFunction) {
   const accessToken = req.headers.authorization;

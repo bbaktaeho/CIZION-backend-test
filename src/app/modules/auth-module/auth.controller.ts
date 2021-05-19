@@ -1,6 +1,6 @@
 import { controller, httpPost } from "inversify-express-utils";
-import { AuthService } from "./auth.service";
 import { Request, Response } from "express";
+import { AuthService } from "./auth.service";
 import { validateLogin } from "./middlewares/login.validator";
 
 @controller("/auth")

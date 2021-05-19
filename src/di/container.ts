@@ -1,11 +1,11 @@
+import { AuthService } from "@src/app/modules/auth-module/auth.service";
+import { CommentService } from "@src/app/modules/comment-module/comment.service";
+import { PostService } from "@src/app/modules/post-module/post.service";
+import { UserService } from "@src/app/modules/user-module/user.service";
+import { CommentRepository } from "@src/repositories/comment.repository";
+import { PostRepository } from "@src/repositories/post.repository";
+import { UserRepository } from "@src/repositories/user.repository";
 import { Container } from "inversify";
-import { AuthService } from "../app/modules/auth-module/auth.service";
-import { CommentService } from "../app/comment-module/comment.service";
-import { PostService } from "../app/post-module/post.service";
-import { UserService } from "../app/user-module/user.service";
-import { CommentRepository } from "../repositories/comment.repository";
-import { PostRepository } from "../repositories/post.repository";
-import { UserRepository } from "../repositories/user.repository";
 
 // IoC
 export const container = new Container({

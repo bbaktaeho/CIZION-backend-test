@@ -1,8 +1,9 @@
+import { Exception } from "@src/common/exceptions/exception";
+import { encryptPassword } from "@src/common/utils/bcrypt.util";
+import { IUser } from "@src/interfases/user.interface";
+import { UserRepository } from "@src/repositories/user.repository";
 import { injectable } from "inversify";
-import { Exception } from "../../common/exceptions/exception";
-import { encryptPassword } from "../../common/utils/bcrypt.util";
-import { IUser } from "../../common/interfases/user.interface";
-import { UserRepository } from "../../repositories/user.repository";
+
 
 @injectable()
 export class UserService {

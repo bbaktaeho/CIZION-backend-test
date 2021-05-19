@@ -1,7 +1,7 @@
 import { controller, httpDelete, httpPatch, httpPost, httpPut } from "inversify-express-utils";
-import { auth } from "../middlewares/auth/jwt.auth";
-import { CommentService } from "./comment.service";
 import { Request, Response } from "express";
+import { auth } from "@src/app/middlewares/auth/jwt.auth";
+import { CommentService } from "./comment.service";
 
 @controller("/comments", auth)
 export class CommentController {

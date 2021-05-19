@@ -16,6 +16,6 @@ export class Model extends BaseEntity {
   }
 
   toJSON() {
-    return { ...this, id: undefined };
+    return { ...this };
   }
 }

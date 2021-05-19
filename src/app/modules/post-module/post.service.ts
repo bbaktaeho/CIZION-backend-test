@@ -1,16 +1,14 @@
+import { Exception } from "@src/common/exceptions/exception";
+import { IPost } from "@src/interfases/post.interface";
+import { PostRepository } from "@src/repositories/post.repository";
+import { UserRepository } from "@src/repositories/user.repository";
 import { injectable } from "inversify";
-import { Exception } from "../../common/exceptions/exception";
-import { IPost } from "../../common/interfases/post.interface";
-import { CommentRepository } from "../../repositories/comment.repository";
-import { PostRepository } from "../../repositories/post.repository";
-import { UserRepository } from "../../repositories/user.repository";
 
 @injectable()
 export class PostService {
   constructor(
     private readonly postRepository: PostRepository,
     private readonly userRepository: UserRepository,
-    private readonly commentRepository: CommentRepository,
   ) {}
 
   async createPost(postDto: IPost, userId: number): Promise<void> {

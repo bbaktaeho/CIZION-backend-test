@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { Request, Response, NextFunction } from "express";
-import { Exception } from "../../../../common/exceptions/exception";
+import { Exception } from "@src/common/exceptions/exception";
 
 const userSchema = Joi.object({
   email: Joi.string().email().required(),

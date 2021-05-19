@@ -1,5 +1,5 @@
+import { auth } from "@src/app/middlewares/auth/jwt.auth";
 import { controller, httpPost } from "inversify-express-utils";
-import { auth } from "../middlewares/auth/jwt.auth";
 
 @controller("/images", auth)
 export class ImageController {

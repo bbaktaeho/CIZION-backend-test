@@ -1,8 +1,8 @@
 import { controller, httpDelete, httpGet, httpPost } from "inversify-express-utils";
-import { auth } from "../middlewares/auth/jwt.auth";
 import { validatePost } from "./middlewares/post.validator";
 import { PostService } from "./post.service";
 import { Request, Response } from "express";
+import { auth } from "@src/app/middlewares/auth/jwt.auth";
 
 @controller("/posts")
 export class PostController {

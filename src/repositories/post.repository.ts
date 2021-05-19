@@ -1,7 +1,8 @@
+import { Post } from "@src/database/entities/post.entity";
+import { IPost } from "@src/interfases/post.interface";
+import { IUser } from "@src/interfases/user.interface";
 import { injectable } from "inversify";
-import { IPost } from "../interfases/post.interface";
-import { IUser } from "../interfases/user.interface";
-import { Post } from "../database/entities/post.entity";
+
 
 @injectable()
 export class PostRepository {

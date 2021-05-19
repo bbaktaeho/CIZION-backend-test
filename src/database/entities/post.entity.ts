@@ -1,5 +1,5 @@
+import { IPost } from "@src/interfases/post.interface";
 import { Entity, Column, ManyToOne, OneToMany } from "typeorm";
-import { IPost } from "../../interfases/post.interface";
 import { Comment } from "./comment.entity";
 import { Model } from "./model.entity";
 import { User } from "./user.entity";

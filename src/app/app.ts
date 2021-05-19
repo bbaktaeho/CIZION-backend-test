@@ -3,8 +3,8 @@ import express from "express";
 import { InversifyExpressServer } from "inversify-express-utils";
 import cors from "cors";
 import morgan from "morgan";
-import logger from "../common/utils/log.util";
 import { errorHandling } from "./middlewares/error/route.error";
+import logger from "@src/common/utils/log.util";
 
 export class App {
   setup() {

@@ -1,6 +1,6 @@
+import { Exception } from "@src/common/exceptions/exception";
+import logger from "@src/common/utils/log.util";
 import { Request, Response, NextFunction } from "express";
-import { Exception } from "../../../common/exceptions/exception";
-import logger from "../../../common/utils/log.util";
 
 /**
  * 에러 핸들링

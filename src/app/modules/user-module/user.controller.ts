@@ -2,7 +2,6 @@ import { controller, httpGet, httpPost } from "inversify-express-utils";
 import { Request, Response } from "express";
 import { UserService } from "./user.service";
 import { validateRegister } from "./middlewares/signup.validator";
-import { auth } from "../middlewares/auth/jwt.auth";
 
 @controller("/users")
 export class UserController {

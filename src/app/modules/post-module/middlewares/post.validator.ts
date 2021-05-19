@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { Request, Response, NextFunction } from "express";
-import { Exception } from "../../../common/exceptions/exception";
+import { Exception } from "@src/common/exceptions/exception";
 
 const postSchema = Joi.object({
   title: Joi.string().required(),
