@@ -12,7 +12,7 @@ export class User extends Model implements IUser {
   @Column()
   nickname: string;
 
-  @Column({ select: false })
+  @Column()
   password: string;
 
   @OneToMany(() => Post, post => post.user)
