@@ -1,5 +1,5 @@
 import { Container } from "inversify";
-import { AuthService } from "../app/auth-module/auth.service";
+import { AuthService } from "../app/modules/auth-module/auth.service";
 import { CommentService } from "../app/comment-module/comment.service";
 import { PostService } from "../app/post-module/post.service";
 import { UserService } from "../app/user-module/user.service";
