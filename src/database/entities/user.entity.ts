@@ -16,14 +16,20 @@ export class User extends Model implements IUser {
   password: string;
 
   @OneToMany(() => Post, post => post.user)
-  posts?: Post[];
+  posts: Post[];
 
   @OneToMany(() => Comment, comment => comment.user)
-  comments?: Comment[];
+  comments: Comment[];
 
   @ManyToMany(() => Comment)
   @JoinTable({
     name: "user_comment_like",
   })
-  likedComments?: Comment[];
+  likedComments: Comment[];
+
+  @ManyToMany(() => Comment)
+  @JoinTable({
+    name: "user_comment_unlike",
+  })
+  unLikedComments: Comment[];
 }

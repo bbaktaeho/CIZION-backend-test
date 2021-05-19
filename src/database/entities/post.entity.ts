@@ -13,8 +13,8 @@ export class Post extends Model implements IPost {
   body: string;
 
   @ManyToOne(() => User, { onDelete: "CASCADE" })
-  user?: User;
+  user: User;
 
   @OneToMany(() => Comment, comment => comment.post)
-  comments?: Comment[];
+  comments: Comment[];
 }
