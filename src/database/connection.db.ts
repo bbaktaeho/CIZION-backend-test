@@ -1,3 +1,4 @@
+import { CommentController } from "@src/app/modules/comment-module/comment.controller";
 import { dbConfig } from "@src/common/configs/db.config";
 import logger from "@src/common/utils/log.util";
 import { createConnection } from "typeorm";
@@ -6,7 +7,7 @@ import { Post } from "./entities/post.entity";
 import { User } from "./entities/user.entity";
 
 export async function getDBConnection() {
-  const entities = [User, Post, Comment];
+  const entities = [User, Post, Comment, CommentController];
 
   return await createConnection({
     ...dbConfig,

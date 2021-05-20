@@ -1,3 +1,4 @@
+import { CommentController } from "@src/app/modules/comment-module/comment.controller";
 import { IUser } from "@src/interfases/user.interface";
 import { Entity, Column, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { Comment } from "./comment.entity";
