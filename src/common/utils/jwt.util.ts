@@ -8,7 +8,7 @@ export function encryptJWT(accessToken: string) {
   return jwt.verify(token, jwtConfig.secret);
 }
 
-export function createUserToken(user: IUser) {
+export function generateAccessToken(user: IUser) {
   const { id, email, nickname } = user;
   return jwt.sign({ id, email, nickname }, jwtConfig.secret, { expiresIn: jwtConfig.accessTokenExpiresIn });
 }
