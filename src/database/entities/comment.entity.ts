@@ -21,11 +21,14 @@ export class Comment extends Model implements IComment {
     joinColumns: [{ name: "parentCommentId" }],
     inverseJoinColumns: [{ name: "childCommentId" }],
   })
-  children?: Comment[];
+  children: Comment[];
 
   @ManyToMany(() => Comment, comment => comment.children)
-  parents?: Comment[];
+  parents: Comment[];
 
-  @ManyToMany(() => User, user => user.likedComments)
+  @ManyToMany(() => User, user => user.likedComments, { cascade: true })
   likedUsers: User[];
+
+  @ManyToMany(() => User, user => user.unLikedComments, { cascade: true })
+  unLikedUsers: User[];
 }
