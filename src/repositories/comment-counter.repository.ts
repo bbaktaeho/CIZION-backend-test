@@ -9,9 +9,9 @@ export class CommentCounterRepository {
     });
   }
 
-  async findOneByCommentId(userId: number, commentId: number) {
+  async findOneByParentId(userId: number, parentId: number) {
     return await CommentCounter.findOne(undefined, {
-      where: { comment: { id: commentId }, user: { id: userId } },
+      where: { comment: { id: parentId }, user: { id: userId } },
     });
   }
 
@@ -20,6 +20,14 @@ export class CommentCounterRepository {
     commentCounter.count = 1;
     commentCounter.user = <any>{ id: userId };
     commentCounter.post = <any>{ id: postId };
+    await commentCounter.save();
+  }
+
+  async createFromParentId(userId: number, parentId: number) {
+    const commentCounter = new CommentCounter();
+    commentCounter.count = 1;
+    commentCounter.user = <any>{ id: userId };
+    commentCounter.comment = <any>{ id: parentId };
     await commentCounter.save();
   }
 

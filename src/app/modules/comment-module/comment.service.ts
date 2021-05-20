@@ -13,36 +13,53 @@ export class CommentService {
     private readonly commentCounterRepository: CommentCounterRepository,
   ) {}
 
-  private async checkSpamming() {}
+  private isSpammingTime(count: number, updatedAt: Date): boolean {
+    const updateTime = parseInt((updatedAt.getTime() / 1000).toFixed(0));
+    const currentTime = parseInt((Date.now() / 1000).toFixed(0));
+    const gap = currentTime - updateTime;
+
+    // 도배 횟수가 5 미만이면서 5초 안에 또 작성할 경우 true
+    if (count < 5 && gap <= 5) return true;
+    // 총 5번의 도배 횟수와 업데이트 시간이 아직 1분 이상으로 지나지 않았다면 throw
+    if (count == 5 && gap < 60) throw Exception.new(403, "도배 금지");
+    // 이도저도 아니면 false
+    return false;
+  }
+
+  async createReComment(commentDto: IComment, parentId: number, userId: number): Promise<void> {
+    const [parentComment, commentCounter] = await Promise.all([
+      this.commentRepository.findOne(parentId),
+      this.commentCounterRepository.findOneByParentId(userId, parentId),
+    ]);
+    if (!parentComment) throw Exception.new(404, "없는 댓글");
+
+    if (!commentCounter) {
+      await this.commentCounterRepository.createFromParentId(userId, parentId);
+    } else {
+      const { id, count, updatedAt } = commentCounter;
+      const checkSpamming = this.isSpammingTime(count, updatedAt);
+      if (checkSpamming) this.commentCounterRepository.update(id, count + 1);
+      else await this.commentCounterRepository.update(id, 1);
+    }
+    await this.commentRepository.create(commentDto, { userId, parentId });
+  }
 
   async createComment(commentDto: IComment, postId: number, userId: number): Promise<void> {
     const [post, commentCounter] = await Promise.all([
       this.postRepository.getPost(postId),
       this.commentCounterRepository.findOneByPostId(userId, postId),
     ]);
-
     if (!post) throw Exception.new(404, "없는 게시글");
-    console.log(commentCounter);
 
     if (!commentCounter) {
-      await Promise.allSettled([
-        this.commentCounterRepository.createFromPostId(userId, postId),
-        this.commentRepository.create(commentDto, { postId, userId }),
-      ]);
+      await this.commentCounterRepository.createFromPostId(userId, postId);
     } else {
-      // todo: if 업데이트 시간 가져와서 아직 1분 이상으로 지나지 않았다면 throw
-      const count = commentCounter.count;
-      // todo: gap 수정
-      const gap = Date.now() - parseInt((commentCounter.updatedAt.getTime() / 1000).toFixed(0));
-      console.log(parseInt(commentCounter.updatedAt.getTime().toFixed(0)));
-      console.log(gap);
-
-      if (count >= 5 && gap < 60000) throw Exception.new(403, "도배 금지");
-      // todo: if 업데이트 시간이 2초 안팍이라면 count++
-      if (gap < 2000) this.commentCounterRepository.update(commentCounter.id, count + 1);
-      // todo: 이도저도 아니라면
-      else await this.commentCounterRepository.update(commentCounter.id, 1);
+      const { id, count, updatedAt } = commentCounter;
+      const checkSpamming = this.isSpammingTime(count, updatedAt);
+      if (checkSpamming) this.commentCounterRepository.update(id, count + 1);
+      else await this.commentCounterRepository.update(id, 1);
     }
+    await this.commentRepository.create(commentDto, { postId, userId });
   }
 
   async getComments(postId: number): Promise<IComment[]> {
@@ -52,12 +69,6 @@ export class CommentService {
 
   async getReComments(id: number): Promise<IComment[]> {
     return await this.commentRepository.findAllByParentId(id);
-  }
-
-  async createReComment(commentDto: IComment, parentId: number, userId: number): Promise<void> {
-    const comment = await this.commentRepository.findOne(parentId);
-    if (!comment) throw Exception.new(404, "없는 댓글");
-    await this.commentRepository.create(commentDto, { userId, parentId });
   }
 
   async likeComment(id: number, userId: number): Promise<void> {
