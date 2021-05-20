@@ -16,6 +16,10 @@ export class UserRepository {
     return await User.findOne(undefined, { where: { email } });
   }
 
+  async getUserByNickname(nickname: string) {
+    return await User.findOne(undefined, { where: { nickname } });
+  }
+
   async createUser(userDto: IUser) {
     const { email, nickname, password } = userDto;
     const user = new User({ email, nickname, password });

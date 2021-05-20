@@ -9,8 +9,12 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async register(userDto: IUser): Promise<void> {
-    const exists = await this.userRepository.getUserByEmail(userDto.email);
-    if (exists) throw Exception.new(409, "이메일 중복");
+    const [existsEmail, existsNickname] = await Promise.all([
+      this.userRepository.getUserByEmail(userDto.email),
+      this.userRepository.getUserByNickname(userDto.nickname),
+    ]);
+    if (existsEmail) throw Exception.new(409, "이메일 중복");
+    if (existsNickname) throw Exception.new(409, "닉네임 중복");
 
     userDto.password = encryptPassword(userDto.password);
     await this.userRepository.createUser(userDto);
