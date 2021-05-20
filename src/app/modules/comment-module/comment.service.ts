@@ -1,9 +1,7 @@
 import { Exception } from "@src/common/exceptions/exception";
-import { Comment } from "@src/database/entities/comment.entity";
 import { IComment } from "@src/interfases/comment.interface";
 import { CommentRepository } from "@src/repositories/comment.repository";
 import { PostRepository } from "@src/repositories/post.repository";
-import { UserRepository } from "@src/repositories/user.repository";
 import { injectable } from "inversify";
 
 @injectable()
@@ -25,8 +23,17 @@ export class CommentService {
     await this.commentRepository.create(commentDto, { userId, parentId });
   }
 
-  async likeComment(commentDto: IComment) {}
-  async unlikeComment(commentDto: IComment) {}
+  async likeComment(id: number, userId: number): Promise<void> {
+    const comment = await this.commentRepository.findOne(id);
+    if (!comment) throw Exception.new(404, "없는 댓글");
+    await this.commentRepository.like(id, userId);
+  }
+
+  async unlikeComment(id: number, userId: number): Promise<void> {
+    const comment = await this.commentRepository.findOne(id);
+    if (!comment) throw Exception.new(404, "없는 댓글");
+    await this.commentRepository.unlike(id, userId);
+  }
 
   async updateComment(commentDto: IComment, userId: number): Promise<void> {
     const comment = await this.commentRepository.findOne(commentDto.id!, ["user"]);

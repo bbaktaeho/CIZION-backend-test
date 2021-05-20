@@ -3,6 +3,9 @@ import { User } from "@src/database/entities/user.entity";
 import { IComment } from "@src/interfases/comment.interface";
 import { injectable } from "inversify";
 
+/**
+ * ! 좋아요와 싫어요의 퍼포먼스 문제가 있을 것 같다..
+ */
 @injectable()
 export class CommentRepository {
   async create(
@@ -26,12 +29,26 @@ export class CommentRepository {
     return await Comment.findOne(id, { relations });
   }
 
-  async like(id: number, user: User) {
-    const comment = await Comment.findOneOrFail(id, { loadRelationIds: true });
+  async like(id: number, userId: number) {
+    const comment = await Comment.findOneOrFail(id, { relations: ["likedUsers", "unLikedUsers"] });
+    if (comment.likedUsers.find(user => user.id === userId)) {
+      comment.likedUsers = comment.likedUsers.filter(user => user.id !== userId);
+    } else {
+      comment.likedUsers.push(<any>{ id: userId });
+      comment.unLikedUsers = comment.unLikedUsers.filter(user => user.id !== userId);
+    }
+    await comment.save();
   }
 
-  async unlike(id: number, user: User) {
-    const comment = await Comment.findOneOrFail(id, { loadRelationIds: true });
+  async unlike(id: number, userId: number) {
+    const comment = await Comment.findOneOrFail(id, { relations: ["likedUsers", "unLikedUsers"] });
+    if (comment.unLikedUsers.find(user => user.id === userId)) {
+      comment.unLikedUsers = comment.unLikedUsers.filter(user => user.id !== userId);
+    } else {
+      comment.unLikedUsers.push(<any>{ id: userId });
+      comment.likedUsers = comment.likedUsers.filter(user => user.id !== userId);
+    }
+    await comment.save();
   }
 
   async delete(id: number, userId: number) {

@@ -41,14 +41,24 @@ export class CommentController {
    * @path PATCH /api/comments/{id}/like
    */
   @httpPatch("/:id/like")
-  async likeComment(req: Request, res: Response) {}
+  async likeComment(req: Request, res: Response) {
+    const id = +req.params.id;
+    const userId = req.user!.id!;
+    await this.commentService.likeComment(id, userId);
+    res.status(200).end();
+  }
 
   /**
    * 댓글 싫어요
    * @path PATCH /api/comments/{id}/unlike
    */
   @httpPatch("/:id/unlike")
-  async unlikeComment(req: Request, res: Response) {}
+  async unlikeComment(req: Request, res: Response) {
+    const id = +req.params.id;
+    const userId = req.user!.id!;
+    await this.commentService.unlikeComment(id, userId);
+    res.status(200).end();
+  }
 
   /**
    * 댓글 수정
