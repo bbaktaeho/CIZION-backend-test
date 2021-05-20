@@ -2,6 +2,7 @@ import { controller, httpGet, httpPost } from "inversify-express-utils";
 import { Request, Response } from "express";
 import { UserService } from "./user.service";
 import { validateRegister } from "./middlewares/signup.validator";
+import { auth } from "@src/app/middlewares/auth/jwt.auth";
 
 @controller("/users")
 export class UserController {
@@ -16,6 +17,17 @@ export class UserController {
   async register(req: Request, res: Response) {
     await this.userService.register(req.body);
     res.status(201).end();
+  }
+
+  /**
+   * 내 정보
+   * @path GET /api/users/account
+   */
+  @httpGet("/account", auth)
+  async account(req: Request, res: Response) {
+    const userId = req.user!.id!;
+    const user = await this.userService.account(userId);
+    res.status(200).json(user);
   }
 
   /**

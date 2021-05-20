@@ -21,8 +21,10 @@ export class PostService {
     return await this.postRepository.getPosts();
   }
 
-  async getPost(id: number): Promise<IPost | undefined> {
-    return await this.postRepository.getPost(id);
+  async getPost(id: number): Promise<IPost> {
+    const post = await this.postRepository.getPost(id);
+    if (!post) throw Exception.new(404, "없는 게시글");
+    return post;
   }
 
   async deletePost(id: number, userId: number): Promise<void> {

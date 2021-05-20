@@ -3,7 +3,6 @@ import { encryptJWT } from "@src/common/utils/jwt.util";
 import { IUser } from "@src/interfases/user.interface";
 import { Request, Response, NextFunction } from "express";
 
-
 export function auth(req: Request, _: Response, next: NextFunction) {
   const accessToken = req.headers.authorization;
   if (!accessToken) next(Exception.new(403, "토큰이 없음"));

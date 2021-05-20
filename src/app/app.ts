@@ -5,6 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import { errorHandling } from "./middlewares/error/route.error";
 import logger from "@src/common/utils/log.util";
+import "dotenv/config"
 
 export class App {
   setup() {

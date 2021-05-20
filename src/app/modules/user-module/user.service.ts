@@ -4,7 +4,6 @@ import { IUser } from "@src/interfases/user.interface";
 import { UserRepository } from "@src/repositories/user.repository";
 import { injectable } from "inversify";
 
-
 @injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
@@ -20,6 +19,12 @@ export class UserService {
   async getUser(id: number): Promise<IUser> {
     const user = await this.userRepository.getUserById(id);
     if (!user) throw Exception.new(404, "없는 사용자");
+    user.password = "";
+    return user;
+  }
+
+  async account(userId: number): Promise<IUser> {
+    const user = await this.userRepository.getMyAccount(userId);
     user.password = "";
     return user;
   }
