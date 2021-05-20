@@ -21,13 +21,13 @@ export class User extends Model implements IUser {
   @OneToMany(() => Comment, comment => comment.user)
   comments: Comment[];
 
-  @ManyToMany(() => Comment)
+  @ManyToMany(() => Comment, comment => comment.likedUsers)
   @JoinTable({
     name: "user_comment_like",
   })
   likedComments: Comment[];
 
-  @ManyToMany(() => Comment)
+  @ManyToMany(() => Comment, comment => comment.unLikedUsers)
   @JoinTable({
     name: "user_comment_unlike",
   })
