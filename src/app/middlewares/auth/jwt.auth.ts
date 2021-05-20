@@ -13,7 +13,7 @@ export function auth(req: Request, _: Response, next: NextFunction) {
       req.user = user as IUser;
       next();
     } catch (err) {
-      next(Exception.new(401, "사용 불가"));
+      next(Exception.new(401, "토큰 사용 불가"));
     }
   }
 }

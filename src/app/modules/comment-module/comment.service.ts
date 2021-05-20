@@ -23,7 +23,6 @@ export class CommentService {
 
     if (!post) throw Exception.new(404, "없는 게시글");
     console.log(commentCounter);
-    
 
     if (!commentCounter) {
       await Promise.allSettled([
@@ -35,9 +34,9 @@ export class CommentService {
       const count = commentCounter.count;
       // todo: gap 수정
       const gap = Date.now() - parseInt((commentCounter.updatedAt.getTime() / 1000).toFixed(0));
-      console.log(parseInt((commentCounter.updatedAt.getTime()).toFixed(0)));
+      console.log(parseInt(commentCounter.updatedAt.getTime().toFixed(0)));
       console.log(gap);
-      
+
       if (count >= 5 && gap < 60000) throw Exception.new(403, "도배 금지");
       // todo: if 업데이트 시간이 2초 안팍이라면 count++
       if (gap < 2000) this.commentCounterRepository.update(commentCounter.id, count + 1);
@@ -48,7 +47,11 @@ export class CommentService {
 
   async getComments(postId: number): Promise<IComment[]> {
     if (!postId) throw Exception.new(400, "query postId가 숫자가 아님");
-    return await this.commentRepository.findAll(postId);
+    return await this.commentRepository.findAllByPostId(postId);
+  }
+
+  async getReComments(id: number): Promise<IComment[]> {
+    return await this.commentRepository.findAllByParentId(id);
   }
 
   async createReComment(commentDto: IComment, parentId: number, userId: number): Promise<void> {
