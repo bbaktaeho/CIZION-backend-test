@@ -17,6 +17,11 @@ export class CommentService {
     await this.commentRepository.create(commentDto, { postId, userId });
   }
 
+  async getComments(postId: number): Promise<IComment[]> {
+    if (!postId) throw Exception.new(400, "query postId가 숫자가 아님");
+    return await this.commentRepository.findAll(postId);
+  }
+
   async createReComment(commentDto: IComment, parentId: number, userId: number): Promise<void> {
     const comment = await this.commentRepository.findOne(parentId);
     if (!comment) throw Exception.new(404, "없는 댓글");

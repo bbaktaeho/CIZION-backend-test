@@ -1,9 +1,18 @@
-import { controller, httpDelete, httpPatch, httpPost, httpPut } from "inversify-express-utils";
+import {
+  controller,
+  httpDelete,
+  httpGet,
+  httpPatch,
+  httpPost,
+  httpPut,
+} from "inversify-express-utils";
 import { Request, Response } from "express";
 import { auth } from "@src/app/middlewares/auth/jwt.auth";
 import { CommentService } from "./comment.service";
 import { validateComment } from "./middlewares/comment.validator";
 import { validateBandedWord } from "./middlewares/banded-word.validator";
+import { validateComments } from "./middlewares/get-comments.validator";
+import { Exception } from "@src/common/exceptions/exception";
 
 @controller("/comments", auth)
 export class CommentController {
@@ -20,6 +29,17 @@ export class CommentController {
     const userId = req.user!.id!;
     await this.commentService.createComment({ body, path }, postId, userId);
     res.status(201).end();
+  }
+
+  /**
+   * 게시글의 댓글 리스트 조회
+   * @query {postId: number}
+   */
+  @httpGet("/")
+  async getComments(req: Request, res: Response) {
+    const postId = Number(req.query.postId);
+    const comments = await this.commentService.getComments(postId);
+    res.status(200).json(comments);
   }
 
   /**

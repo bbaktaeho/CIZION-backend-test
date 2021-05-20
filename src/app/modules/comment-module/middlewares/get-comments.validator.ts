@@ -3,12 +3,10 @@ import { Request, Response, NextFunction } from "express";
 import { Exception } from "@src/common/exceptions/exception";
 
 const commentSchema = Joi.object({
-  body: Joi.string().required(),
-  path: Joi.string().uri(),
-  postId: Joi.number(),
+  postId: Joi.number().required(),
 });
 
-export async function validateComment(req: Request, res: Response, next: NextFunction) {
+export async function validateComments(req: Request, res: Response, next: NextFunction) {
   try {
     await commentSchema.validateAsync(req.body);
     next();

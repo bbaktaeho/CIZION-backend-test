@@ -29,6 +29,10 @@ export class CommentRepository {
     return await Comment.findOne(id, { relations });
   }
 
+  async findAll(postId: number) {
+    return await Comment.find({ where: { post: { id: postId } }, loadRelationIds: true });
+  }
+
   async like(id: number, userId: number) {
     const comment = await Comment.findOneOrFail(id, { relations: ["likedUsers", "unLikedUsers"] });
     if (comment.likedUsers.find(user => user.id === userId)) {
