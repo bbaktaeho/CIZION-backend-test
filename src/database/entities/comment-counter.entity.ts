@@ -1,5 +1,6 @@
 import { ICommentCounter } from "@src/interfases/comment-counter.interface";
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Comment } from "./comment.entity";
 import { Model } from "./model.entity";
 import { Post } from "./post.entity";
 import { User } from "./user.entity";

@@ -29,6 +29,14 @@ export class CommentRepository {
     return await Comment.findOne(id, { relations });
   }
 
+  async findAllByPostId(postId: number) {
+    return await Comment.find({ where: { post: { id: postId } }, loadRelationIds: true });
+  }
+
+  async findAllByParentId(id: number) {
+    return (await Comment.findOneOrFail(id, { relations: ["children"] })).children;
+  }
+
   async like(id: number, userId: number) {
     const comment = await Comment.findOneOrFail(id, { relations: ["likedUsers", "unLikedUsers"] });
     if (comment.likedUsers.find(user => user.id === userId)) {

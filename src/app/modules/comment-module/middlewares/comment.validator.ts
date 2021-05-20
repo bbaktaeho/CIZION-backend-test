@@ -2,8 +2,6 @@ import Joi from "joi";
 import { Request, Response, NextFunction } from "express";
 import { Exception } from "@src/common/exceptions/exception";
 
-// const pattern = /^시.?발$/;
-
 const commentSchema = Joi.object({
   body: Joi.string().required(),
   path: Joi.string().uri(),

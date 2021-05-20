@@ -1,8 +1,8 @@
+import { Comment } from "@src/database/entities/comment.entity";
 import { Post } from "@src/database/entities/post.entity";
 import { IPost } from "@src/interfases/post.interface";
 import { IUser } from "@src/interfases/user.interface";
 import { injectable } from "inversify";
-
 
 @injectable()
 export class PostRepository {
@@ -17,7 +17,7 @@ export class PostRepository {
   }
 
   async getPost(id: number) {
-    return await Post.findOne(id, { relations: ["comments"] });
+    return await Post.findOne(id);
   }
 
   async deletePost(id: number, userId: number) {
