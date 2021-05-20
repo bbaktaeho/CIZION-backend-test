@@ -1,5 +1,5 @@
 import { IPost } from "@src/interfases/post.interface";
-import { Entity, Column, ManyToOne, OneToMany } from "typeorm";
+import { Entity, Column, ManyToOne, OneToMany, JoinColumn } from "typeorm";
 import { Comment } from "./comment.entity";
 import { Model } from "./model.entity";
 import { User } from "./user.entity";
@@ -13,6 +13,7 @@ export class Post extends Model implements IPost {
   body: string;
 
   @ManyToOne(() => User, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "userId" })
   user: User;
 
   @OneToMany(() => Comment, comment => comment.post)

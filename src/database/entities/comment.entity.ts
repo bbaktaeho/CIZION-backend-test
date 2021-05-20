@@ -1,5 +1,5 @@
 import { IComment } from "@src/interfases/comment.interface";
-import { Entity, Column, ManyToOne, ManyToMany, JoinTable } from "typeorm";
+import { Entity, Column, ManyToOne, ManyToMany, JoinTable, JoinColumn } from "typeorm";
 import { Model } from "./model.entity";
 import { Post } from "./post.entity";
 import { User } from "./user.entity";
@@ -10,9 +10,11 @@ export class Comment extends Model implements IComment {
   body: string;
 
   @ManyToOne(() => User, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "userId" })
   user: User;
 
   @ManyToOne(() => Post, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "postId" })
   post: Post;
 
   @ManyToMany(() => Comment)
