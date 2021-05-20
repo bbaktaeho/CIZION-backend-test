@@ -9,6 +9,9 @@ export class Comment extends Model implements IComment {
   @Column()
   body: string;
 
+  @Column({ nullable: true })
+  path: string;
+
   @ManyToOne(() => User, { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
   user: User;
@@ -17,7 +20,7 @@ export class Comment extends Model implements IComment {
   @JoinColumn({ name: "postId" })
   post: Post;
 
-  @ManyToMany(() => Comment)
+  @ManyToMany(() => Comment, comment => comment.parents, { onDelete: "CASCADE" })
   @JoinTable({
     name: "parent_child_comment",
     joinColumns: [{ name: "parentCommentId" }],
@@ -26,11 +29,16 @@ export class Comment extends Model implements IComment {
   children: Comment[];
 
   @ManyToMany(() => Comment, comment => comment.children)
+  @JoinTable({
+    name: "parent_child_comment",
+    joinColumns: [{ name: "childCommentId" }],
+    inverseJoinColumns: [{ name: "parentCommentId" }],
+  })
   parents: Comment[];
 
-  @ManyToMany(() => User, user => user.likedComments, { cascade: true })
+  @ManyToMany(() => User, user => user.likedComments, { onDelete: "CASCADE" })
   likedUsers: User[];
 
-  @ManyToMany(() => User, user => user.unLikedComments, { cascade: true })
+  @ManyToMany(() => User, user => user.unLikedComments, { onDelete: "CASCADE" })
   unLikedUsers: User[];
 }

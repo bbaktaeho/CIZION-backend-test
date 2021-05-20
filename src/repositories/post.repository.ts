@@ -17,7 +17,7 @@ export class PostRepository {
   }
 
   async getPost(id: number) {
-    return await Post.findOne(id, { loadRelationIds: true });
+    return await Post.findOne(id, { relations: ["comments"] });
   }
 
   async deletePost(id: number, userId: number) {
