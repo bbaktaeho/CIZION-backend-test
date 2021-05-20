@@ -5,7 +5,9 @@ import cors from "cors";
 import morgan from "morgan";
 import { errorHandling } from "./middlewares/error/route.error";
 import logger from "@src/common/utils/log.util";
-import "dotenv/config"
+import "dotenv/config";
+import { serverConfig } from "@src/common/configs/server.config";
+import path from "path";
 
 export class App {
   setup() {
@@ -19,6 +21,7 @@ export class App {
         app.use(morgan("dev"));
         app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
+        app.use("/upload", express.static(path.join(__dirname, "../../upload/")));
       })
       .setErrorConfig(app => {
         app.use(errorHandling);
@@ -26,8 +29,8 @@ export class App {
     logger.verbose("미들웨어 등록");
 
     // 서버 실행
-    server.build().listen(process.env.PORT, () => {
-      logger.info("서버 실행");
+    server.build().listen(serverConfig.port, () => {
+      logger.info(`http://${serverConfig.host}:${serverConfig.port}/ 서버 실행`);
     });
   }
 }
