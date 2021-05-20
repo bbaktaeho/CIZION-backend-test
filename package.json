@@ -4,10 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/bootstrap.ts",
-    "preview": "tsc && node dist/bootstrap.js",
-    "start": "node dist/bootstrap.js"
   },
   "keywords": [],
   "author": "",
