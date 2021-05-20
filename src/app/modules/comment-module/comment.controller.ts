@@ -11,8 +11,6 @@ import { auth } from "@src/app/middlewares/auth/jwt.auth";
 import { CommentService } from "./comment.service";
 import { validateComment } from "./middlewares/comment.validator";
 import { validateBandedWord } from "./middlewares/banded-word.validator";
-import { validateComments } from "./middlewares/get-comments.validator";
-import { Exception } from "@src/common/exceptions/exception";
 
 @controller("/comments", auth)
 export class CommentController {
