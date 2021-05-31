@@ -91,6 +91,7 @@ src
 4. `npm run dev`
 
 ## API
+Insomnia API 사용
 
 1. `npm run docs`
    
